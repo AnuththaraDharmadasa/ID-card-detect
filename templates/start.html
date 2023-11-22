@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .btn-3d-circle {
+            display: block;
+            width: 150px;
+            height: 150px;
+            line-height: 150px;
+            margin: 0 auto;
+            background-color:rgb(212, 3, 3);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-3d-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+    <title>Home</title>
+    <meta http-equiv="refresh" content="60">
+</head>
+<body>
+
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+
+        <div class="row border rounded-5 p-3 bg-white shadow box-area">
+
+        
+        <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: rgb(247, 173, 163);">
+            <div class="featured-image mb-1">
+                <img src="https://www.pngall.com/wp-content/uploads/2016/04/Web-Security-PNG-Images.png"
+                class="img-fluid" style="width: 250px;">
+            </div>
+            <br>
+            <br>
+          
+            
+            <b><p class="text-black fs-2">ID Card Detector</p></b>
+            
+
+        </div>
+
+        
+        <div class="col-md-6 right-box">
+            <div class="row align-items-center">
+                
+                <div class="input-group mb-3 d-flex justify-content-between">
+                </div>
+              
+              
+                <button class="btn btn-3d-circle fs-5 mb-5" id="detectButton"><b>Start</b></button>
+                
+                
+                <div id="detectionResults">
+                    <!-- Detection results will be displayed here -->
+                </div>
+                <div id="videoContainer" style="display: none;">
+                
+                </div>
+
+                
+            
+                <div class="row">
+                    <div class="col text-center">
+                        <br>
+                        <br>
+                        <br>
+                        <img src="https://orel.com/wp-content/uploads/2019/03/logo.png" img-fluid" alt="Logo" style="height: 60px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+    <script>
+        const videoContainer = document.getElementById('videoContainer');
+        const videoFeed = document.getElementById('videoFeed');
+        const detectButton = document.getElementById('detectButton');
+        
+        const detectionResults = document.getElementById('detectionResults');
+
+        detectButton.addEventListener('click', () => {
+            videoContainer.style.display = 'block';
+            videoFeed.style.display = 'block';
+           detectButton.style.display = 'none';
+            detectButton.style.display = 'block';
+        });
+
+        detectButton.addEventListener('click', () => {
+            fetch('/detect_objects', {
+                method: 'POST',
+            })
+            .then(response => response.json())  // Assumes detection results are returned in JSON format
+            .then(data => {
+                // Process detection results and update the webpage
+                detectionResults.innerHTML = '<h2>Detection Results</h2><ul>';
+                data.forEach(result => {
+                    detectionResults.innerHTML += `<li>${result}</li>`;
+                });
+                detectionResults.innerHTML += '</ul>';
+            })
+            .catch(error => {
+                console.error('Error detecting objects:', error);
+            });
+        
+
+ 
+
+
+    });
+
+
+
+    </script>
+
+
+    
+    
+</body>
+</html>

@@ -1,0 +1,38 @@
+body{
+    font-family: 'Poppins', sans-serif;
+    background: #ececec;
+}
+
+.box-area{
+    width: 930px;
+    height: 600px;
+}
+p{
+    text-align: center;
+}
+p{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+h2{
+    text-align: center;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .right-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        
+
+        
+        

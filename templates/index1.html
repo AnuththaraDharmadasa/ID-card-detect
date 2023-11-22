@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webcam Demo</title>
+</head>
+<body>
+    <h1>Webcam Demo</h1>
+    <img src="{{ url_for('video_feed') }}" width="640" height="480">
+    <br>
+    <button onclick="startWebcam()">Start Webcam</button>
+
+    <script>
+        function startWebcam() {
+            fetch('/start_webcam')
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Webcam started');
+                    } else {
+                        console.error('Failed to start webcam');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+</html>

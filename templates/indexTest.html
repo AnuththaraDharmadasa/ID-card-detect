@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask App</title>
+</head>
+<body>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="start_button">Start</button>
+    <button id="stop_button">Stop</button>
+    <div id="detections"></div>
+
+<script>
+var video = document.getElementById('video');
+var start_button = document.getElementById('start_button');
+var stop_button = document.getElementById('stop_button');
+
+var capture_frames = false;
+
+start_button.onclick = function() {
+    capture_frames = true;
+};
+
+stop_button.onclick = function() {
+    capture_frames = false;
+};
+
+var video_stream = new cv2.VideoCapture(0);
+
+if (video_stream.isOpened()) {
+    video.srcObject = video_stream;
+} else {
+    alert("Could not open webcam");
+}
+
+setInterval(function() {
+    if (capture_frames) {
+        var frame = video_stream.read()[1];
+        var detections = detect.run(weights='NICbest.pt', source='0', save_crop='results');
+        render_detections(detections);
+    }
+}, 1000);
+
+function render_detections(detections) {
+    var html = '';
+    for (var i = 0; i < detections.length; i++) {
+        var detection = detections[i];
+        html += '<div>' +
+            '<span>' + detection.label + '</span>' +
+            '<br>' +
+            '<span>' + detection.confidence + '</span>' +
+            '<br>' +
+            '<span>' + detection.bbox + '</span>' +
+        '</div>';
+    }
+    document.getElementById('detections').innerHTML = html;
+}
+</script>
+</body>
+</html>

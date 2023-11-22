@@ -1,0 +1,15 @@
+
+
+
+
+train:  ../staff_ID/images/train/
+val:    ../staff_ID/images/val/
+
+
+# Classes
+names:
+  0: staff_ID
+  
+
+
+

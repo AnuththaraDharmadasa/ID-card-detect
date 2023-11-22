@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Object Detection</title>
+</head>
+<body>
+    <h1>Webcam Object Detection</h1>
+    <button id="startButton">Start Webcam</button>
+    <div id="videoContainer" style="display: none;">
+        <div class="col-lg-6">
+            <img id="videoFeed" src="{{ url_for('video_feed') }}" alt="Webcam Feed" class="img-fluid">
+        </div>
+        <div class="col-lg-6">
+            <img id="myImage" src="D:/projects/yolov5/templates/123.png" alt="Your Image" class="img-fluid">
+        </div>
+        
+       
+    </div>
+    </div>
+    <button id="detectButton" style="display: none;">Detect Objects</button>
+    <div id="detectionResults">
+        <!-- Detection results will be displayed here -->
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        const videoContainer = document.getElementById('videoContainer');
+        const videoFeed = document.getElementById('videoFeed');
+        const startButton = document.getElementById('startButton');
+        const detectButton = document.getElementById('detectButton');
+        const detectionResults = document.getElementById('detectionResults');
+
+        startButton.addEventListener('click', () => {
+            videoContainer.style.display = 'block';
+            videoFeed.style.display = 'block';
+            startButton.style.display = 'none';
+            detectButton.style.display = 'block';
+        });
+
+        detectButton.addEventListener('click', () => {
+            fetch('/detect_objects', {
+                method: 'POST',
+            })
+            .then(response => response.json())  // Assumes detection results are returned in JSON format
+            .then(data => {
+                // Process detection results and update the webpage
+                detectionResults.innerHTML = '<h2>Detection Results</h2><ul>';
+                data.forEach(result => {
+                    detectionResults.innerHTML += `<li>${result}</li>`;
+                });
+                detectionResults.innerHTML += '</ul>';
+            })
+            .catch(error => {
+                console.error('Error detecting objects:', error);
+            });
+        });
+    </script>
+</body>
+</html>

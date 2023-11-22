@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection Web App</title>
+</head>
+<body>
+    <button onclick="startStream()">Start Stream</button>
+    <button onclick="stopStream()">Stop Stream</button>
+    <button onclick="detectObjects()">Detect Objects</button>
+    <button onclick="refreshPage()">Refresh Page</button>
+    <div id="status"></div>
+    <img id="video_feed" style="display: none;">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('update_status', function (data) {
+            document.getElementById('status').innerHTML = data.status;
+        });
+
+        socket.on('video_feed', function (data) {
+            document.getElementById('video_feed').src = data.source;
+            document.getElementById('video_feed').style.display = 'block';
+        });
+
+        socket.on('object_detection_result', function (data) {
+            alert('Object Detection Result: ' + data.result);
+        });
+
+        function startStream() {
+            socket.emit('start_stream');
+        }
+
+        function stopStream() {
+            document.getElementById('video_feed').style.display = 'none';
+        }
+
+        function detectObjects() {
+            socket.emit('detect_objects');
+        }
+
+        function refreshPage() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
